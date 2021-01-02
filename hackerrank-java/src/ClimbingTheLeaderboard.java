@@ -18,30 +18,31 @@ class Result {
         ranked.sort(Integer::compareTo);
 
         List<Integer> finalRank = new ArrayList<Integer>();
-        System.out.println("ranked = " + ranked);
-        System.out.println("player = " + player);
+        // System.out.println("ranked = " + ranked);
+        // System.out.println("player = " + player);
 
         HashMap<Integer, Integer> rankMap = updateRankmap(ranked);
 
-//        System.out.println("rankMap = " + rankMap);
+        // System.out.println("rankMap = " + rankMap);
         for (int p: player) {
             if (rankMap.containsKey(p)) {
                 finalRank.add(rankMap.size() - rankMap.get(p) + 1);
             } else {
                 int index = Collections.binarySearch(ranked, p);
-//                System.out.println("p = " + p);
-//                System.out.println("index = " + index);
+                // System.out.println("p = " + p);
+                // System.out.println("index = " + index);
                 int insertionPoint = -(index+1);
-//                System.out.println("insertionPoint = " + insertionPoint);
-//                System.out.println("ranked.get(insertionPoint) = " + ranked.get(insertionPoint));
+                // System.out.println("insertionPoint = " + insertionPoint);
+//                // System.out.println("ranked.get(insertionPoint) = " + ranked.get(insertionPoint));
                 ranked.add(insertionPoint, p);
+                // System.out.println("ranked = " + ranked);
                 rankMap = updateRankmap(ranked);
-                finalRank.add(Math.abs(rankMap.size() - rankMap.get(p)));
+                finalRank.add(Math.max(rankMap.size() - rankMap.get(p), 1));
             }
         }
 
-        System.out.println("ranked = " + ranked);
-        System.out.println("finalRank = " + finalRank);
+        // System.out.println("ranked = " + ranked);
+        // System.out.println("finalRank = " + finalRank);
 
         return finalRank;
 
@@ -62,11 +63,11 @@ class Result {
 
 public class ClimbingTheLeaderboard {
     public static void main(String[] args) throws IOException {
-//        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-//        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
-        int input = 2;
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("io/climbingLeaderboard/input."+input+".txt"));
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("io/climbingLeaderboard/output."+input+".txt"));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+//        int input = 1;
+//        BufferedReader bufferedReader = new BufferedReader(new FileReader("io/climbingLeaderboard/input."+input+".txt"));
+//        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("io/climbingLeaderboard/output."+input+".txt"));
 
         int rankedCount = Integer.parseInt(bufferedReader.readLine().trim());
 
