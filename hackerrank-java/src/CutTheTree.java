@@ -15,9 +15,7 @@ class Node {
 }
 
 class Graph {
-
-    // Each node maps to a list of all his neighbors
-    private HashMap<Node, LinkedList<Node>> adjacencyMap;
+    private final HashMap<Node, LinkedList<Node>> adjacencyMap;
 
     public Graph() {
         adjacencyMap = new HashMap<>();
@@ -65,6 +63,26 @@ class Graph {
     public boolean hasEdge(Node source, Node destination) {
         return adjacencyMap.containsKey(source) && adjacencyMap.get(source) != null && adjacencyMap.get(source).contains(destination);
     }
+
+
+    public void dfsAndCut(Node start) {
+        Stack<Node> stack = new Stack<>();
+        boolean[] isVisited = new boolean[adjacencyMap.size() + 1];
+        stack.push(start);
+        while (!stack.isEmpty()) {
+            Node current = stack.pop();
+            isVisited[current.id] = true;
+            System.out.println("current.id = " + current.id);
+            try {
+                    for (Node dest : adjacencyMap.get(current)) {
+                        if (!isVisited[dest.id])
+                            stack.push(dest);
+                    }
+            } catch (NullPointerException ignored) {}
+
+        }
+    }
+
 }
 
 
@@ -84,6 +102,7 @@ class CutTheTreeResult {
         }
 
         g.printEdges();
+        g.dfsAndCut(nodes[1]);
         return 0;
     }
 
