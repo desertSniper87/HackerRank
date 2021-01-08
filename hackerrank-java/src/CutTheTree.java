@@ -5,12 +5,12 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 class Node {
-    int n;
-    String name;
+    int id;
+    int value;
 
-    Node(int n, String name){
-        this.n = n;
-        this.name = name;
+    Node(int id, int value){
+        this.id = id;
+        this.value = value;
     }
 }
 
@@ -49,10 +49,10 @@ class Graph {
 
     public void printEdges() {
         for (Node node : adjacencyMap.keySet()) {
-            System.out.print("The " + node.name + " has an edge towards: ");
+            System.out.print("The " + node.id + " has an edge towards: ");
             if (adjacencyMap.get(node) != null) {
                 for (Node neighbor : adjacencyMap.get(node)) {
-                    System.out.print(neighbor.name + " ");
+                    System.out.print(neighbor.id + " ");
                 }
                 System.out.println();
             }
@@ -73,12 +73,17 @@ class CutTheTreeResult {
     public static int cutTheTree(List<Integer> data, List<List<Integer>> edges, int numberOfNodes) {
         Graph g = new Graph();
 
-        for (int i = 0; i < edges.size(); i++) {
-            List<Integer> edge = edges.get(i);
-            g.addEdge(edge.get(0), edge.get(1), data.get(i));
+        Node[] nodes = new Node[numberOfNodes + 1];
+
+        for (int i = 1; i <= numberOfNodes; i++) {
+            nodes[i] = new Node(i, data.get(i-1));
         }
 
-        g.printMatrix();
+        for (List<Integer> edge: edges){
+            g.addEdge(nodes[edge.get(0)], nodes[edge.get(1)]);
+        }
+
+        g.printEdges();
         return 0;
     }
 
